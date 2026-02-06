@@ -11,35 +11,35 @@ interface HomeEntryProps {
 
 export const HomeEntry = ({ onStartStory }: HomeEntryProps) => {
   return (
-    <div className="absolute inset-0 w-[640px] h-[1136px] overflow-hidden">
-      {/* 1. 背景层 */}
-      <div 
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat z-0"
-        style={{ backgroundImage: `url("${bgImage}")` }}
+    <div className="absolute inset-0 w-full h-full overflow-hidden">
+      {/* 1. 背景层 - 使用完整背景图 */}
+      <img 
+        src={bgImage} 
+        alt="背景"
+        className="absolute inset-0 w-full h-full object-cover z-0"
       />
       
       {/* 2. 主体内容层 */}
-      <div className="relative z-10 w-full h-full">
+      <div className="absolute inset-0 z-10">
           
-          {/* 标题文字 - 固定像素定位 */}
+          {/* 标题文字 */}
           <motion.div 
             initial={{ opacity: 0, y: -30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
-            className="absolute left-1/2 -translate-x-1/2"
-            style={{ top: 170, width: 280 }}
+            className="absolute top-[15%]"
+            style={{ left: 290, width: 64 }}
           >
             <img 
               src={titleImage} 
               alt="开始寻找你的好彩头" 
-              className="w-full h-auto object-contain drop-shadow-lg"
+              className="absolute w-full h-auto object-contain drop-shadow-lg"
             />
           </motion.div>
 
-          {/* 启动按钮 - 固定像素定位 */}
+          {/* 启动按钮 */}
           <motion.div
-            className="absolute left-1/2 -translate-x-1/2 cursor-pointer group z-20"
-            style={{ top: 770, width: 90, height: 90 }}
+            className="absolute left-1/2 -translate-x-1/2 top-[68%] w-[14%] aspect-square cursor-pointer group z-20"
             onClick={onStartStory}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
@@ -63,13 +63,12 @@ export const HomeEntry = ({ onStartStory }: HomeEntryProps) => {
             </div>
           </motion.div>
 
-          {/* 底部Logo - 固定像素定位 */}
+          {/* 底部Logo */}
           <motion.div 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.5, duration: 0.8 }}
-            className="absolute left-1/2 -translate-x-1/2"
-            style={{ bottom: 60, width: 140 }}
+            className="absolute left-1/2 -translate-x-1/2 bottom-[5%] w-[22%]"
           >
             <img 
               src={logoImage} 

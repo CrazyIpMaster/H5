@@ -39,7 +39,7 @@ const BLESSINGS = [
 
 export const TextSelector = ({ selectedBlessing, onSelect, onNext, onBack }: TextSelectorProps) => {
   return (
-    <div className="absolute inset-0 w-[640px] h-[1136px] overflow-hidden bg-[#D64131]">
+    <div className="absolute inset-0 w-full h-full overflow-hidden bg-[#D64131]">
       <div className="absolute inset-0 overflow-hidden pointer-events-auto">
         {/* 背景 */}
         <img src={bgImage} alt="bg" className="absolute inset-0 w-full h-full object-cover z-0" />

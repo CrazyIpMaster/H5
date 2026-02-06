@@ -94,7 +94,7 @@ export const PosterResult = ({ selectedPattern, selectedBlessing, onReset }: Pos
   }
 
   return (
-    <div className="absolute inset-0 w-[640px] h-[1136px] overflow-hidden bg-black">
+    <div className="absolute inset-0 w-full h-full overflow-hidden bg-black">
       <div 
         ref={posterRef}
         className="absolute inset-0 overflow-hidden bg-white"

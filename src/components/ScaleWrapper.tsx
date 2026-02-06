@@ -1,4 +1,3 @@
-
 import { useEffect, useState, useRef } from 'react';
 import type { ReactNode } from 'react';
 
@@ -34,14 +33,16 @@ export const ScaleWrapper = ({ children }: ScaleWrapperProps) => {
   }, []);
 
   return (
-    <div className="fixed inset-0 overflow-hidden bg-black flex items-center justify-center">
+    <div className="fixed inset-0 overflow-hidden bg-black">
       <div
         ref={containerRef}
-        className="relative overflow-hidden shadow-2xl"
+        className="absolute overflow-hidden"
         style={{
           width: 640,
           height: 1136,
-          transform: `scale(${scale})`,
+          left: '50%',
+          top: '50%',
+          transform: `translate(-50%, -50%) scale(${scale})`,
           transformOrigin: 'center center',
         }}
       >

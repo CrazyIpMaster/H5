@@ -172,7 +172,7 @@ export function BeastExploration() {
   }
 
   return (
-    <div className="absolute inset-0 w-[640px] h-[1136px] overflow-hidden bg-black">
+    <div className="absolute inset-0 w-full h-full overflow-hidden bg-black">
       {/* Content Container */}
       <div 
         ref={containerRef}

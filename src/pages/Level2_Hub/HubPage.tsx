@@ -25,7 +25,7 @@ export function HubPage() {
   }
 
   return (
-    <div className="absolute inset-0 w-[640px] h-[1136px] overflow-hidden">
+    <div className="absolute inset-0 w-full h-full overflow-hidden">
       {/* Background Layer */}
       <div 
         className="absolute inset-0 bg-cover bg-center bg-no-repeat z-0"

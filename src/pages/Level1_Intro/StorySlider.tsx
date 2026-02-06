@@ -48,7 +48,7 @@ export const StorySlider = ({ onComplete }: StorySliderProps) => {
   }, [currentTextIndex])
 
   return (
-    <div className="absolute inset-0 w-[640px] h-[1136px] overflow-hidden">
+    <div className="absolute inset-0 w-full h-full overflow-hidden">
       {/* Background Video */}
       <div className="absolute inset-0 z-0">
         <video
