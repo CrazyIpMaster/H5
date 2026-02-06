@@ -94,14 +94,10 @@ export const PosterResult = ({ selectedPattern, selectedBlessing, onReset }: Pos
   }
 
   return (
-    <div className="absolute inset-0 w-full h-full overflow-hidden bg-black flex items-center justify-center">
+    <div className="absolute inset-0 w-[640px] h-[1136px] overflow-hidden bg-black">
       <div 
         ref={posterRef}
-        className="relative overflow-hidden bg-white shadow-2xl"
-        style={{ 
-          width: 640, 
-          height: 1136,
-        }}
+        className="absolute inset-0 overflow-hidden bg-white"
       >
         {/* 背景海报 */}
         <img src={posterBg} alt="海报背景" className="absolute inset-0 w-full h-full object-cover z-0" />

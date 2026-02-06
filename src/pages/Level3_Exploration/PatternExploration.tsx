@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useAppStore } from '../../store/useAppStore'
 import { CostumeModal } from './CostumeModal'
@@ -123,35 +123,12 @@ const PATTERNS = [
 
 export function PatternExploration() {
   const { setPhase } = useAppStore()
-  const [scale, setScale] = useState(1)
   const containerRef = useRef<HTMLDivElement>(null)
   
   // Modal State
   const [activeModal, setActiveModal] = useState<'none' | 'costume' | 'pattern' | 'action' | 'expansion'>('none')
   const [selectedItem, setSelectedItem] = useState<typeof PATTERNS[0] | null>(null)
   const [previewImage, setPreviewImage] = useState<string | null>(null)
-
-  // Fixed resolution scaling logic (Same as StorySlider/HubPage)
-  useEffect(() => {
-    const handleResize = () => {
-      const windowWidth = window.innerWidth
-      const windowHeight = window.innerHeight
-      const targetRatio = 640 / 1136
-      const windowRatio = windowWidth / windowHeight
-
-      let newScale = 1
-      if (windowRatio > targetRatio) {
-        newScale = windowHeight / 1136
-      } else {
-        newScale = windowWidth / 640
-      }
-      setScale(newScale)
-    }
-
-    handleResize()
-    window.addEventListener('resize', handleResize)
-    return () => window.removeEventListener('resize', handleResize)
-  }, [])
 
   const handleCostumeClick = (pattern: typeof PATTERNS[0]) => {
     if (pattern.costumeData) {
@@ -171,18 +148,11 @@ export function PatternExploration() {
   }
 
   return (
-    <div className="fixed inset-0 overflow-hidden bg-black">
-      {/* Content Container - Scaled to Maintain 640x1136 Ratio */}
+    <div className="absolute inset-0 w-[640px] h-[1136px] overflow-hidden bg-black">
+      {/* Content Container */}
       <div 
         ref={containerRef}
-        className="absolute pointer-events-auto overflow-hidden"
-        style={{ 
-          width: 640, 
-          height: 1136,
-          left: '50%',
-          top: '50%',
-          transform: `translate(-50%, -50%) scale(${scale})`,
-        }}
+        className="absolute inset-0 pointer-events-auto overflow-hidden"
       >
         {/* Back Button (Fixed) */}
           <motion.button

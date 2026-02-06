@@ -104,7 +104,7 @@ export function CreationPage() {
   }
 
   return (
-    <div className="absolute inset-0 w-full h-full overflow-hidden">
+    <div className="absolute inset-0 w-[640px] h-[1136px] overflow-hidden">
       {/* Background - Same for all steps */}
       <div 
         className="absolute inset-0 bg-cover bg-center bg-no-repeat z-0"

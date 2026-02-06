@@ -11,70 +11,73 @@ interface HomeEntryProps {
 
 export const HomeEntry = ({ onStartStory }: HomeEntryProps) => {
   return (
-    <div className="absolute inset-0 w-full h-full overflow-hidden">
+    <div className="absolute inset-0 w-[640px] h-[1136px] overflow-hidden">
       {/* 1. 背景层 */}
-        <div 
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat z-0"
-          style={{ backgroundImage: `url("${bgImage}")` }}
-        />
-        
-        {/* 2. 主体内容层 */}
-        <div className="relative z-10 w-full h-full">
-            
-            {/* 标题文字 - Top 15% */}
-            <motion.div 
-              initial={{ opacity: 0, y: -30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
-              className="absolute left-1/2 -translate-x-1/2 top-[15%] w-auto h-[45%] flex justify-center"
-            >
-              <img 
-                src={titleImage} 
-                alt="开始寻找你的好彩头" 
-                className="h-full w-auto object-contain drop-shadow-lg"
-              />
-            </motion.div>
+      <div 
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat z-0"
+        style={{ backgroundImage: `url("${bgImage}")` }}
+      />
+      
+      {/* 2. 主体内容层 */}
+      <div className="relative z-10 w-full h-full">
+          
+          {/* 标题文字 - 固定像素定位 */}
+          <motion.div 
+            initial={{ opacity: 0, y: -30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            className="absolute left-1/2 -translate-x-1/2"
+            style={{ top: 170, width: 280 }}
+          >
+            <img 
+              src={titleImage} 
+              alt="开始寻找你的好彩头" 
+              className="w-full h-auto object-contain drop-shadow-lg"
+            />
+          </motion.div>
 
-            {/* 启动按钮 - Top 68% */}
+          {/* 启动按钮 - 固定像素定位 */}
+          <motion.div
+            className="absolute left-1/2 -translate-x-1/2 cursor-pointer group z-20"
+            style={{ top: 770, width: 90, height: 90 }}
+            onClick={onStartStory}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            {/* 光晕背景 - Gold */}
             <motion.div
-              className="absolute left-1/2 -translate-x-1/2 top-[68%] w-[20%] max-w-[120px] aspect-square cursor-pointer group z-20"
-              onClick={onStartStory}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              {/* 光晕背景 - Gold */}
-              <motion.div
-                className="absolute inset-0 bg-[#FFD700] rounded-full blur-xl opacity-20 group-hover:opacity-40 transition-opacity duration-500"
-                animate={{ scale: [1, 1.2, 1] }}
-                transition={{ repeat: Infinity, duration: 2 }}
-              />
-              
-              <img 
-                src={btnImage} 
-                alt="开始" 
-                className="relative w-full h-full object-contain z-10"
-              />
-              
-              {/* 涟漪动画 - Gold */}
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[140%] h-[140%] pointer-events-none">
-                <span className="absolute inline-flex h-full w-full rounded-full bg-[#FFD700] opacity-20 animate-ping" />
-              </div>
-            </motion.div>
+              className="absolute inset-0 bg-[#FFD700] rounded-full blur-xl opacity-20 group-hover:opacity-40 transition-opacity duration-500"
+              animate={{ scale: [1, 1.2, 1] }}
+              transition={{ repeat: Infinity, duration: 2 }}
+            />
+            
+            <img 
+              src={btnImage} 
+              alt="开始" 
+              className="relative w-full h-full object-contain z-10"
+            />
+            
+            {/* 涟漪动画 - Gold */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[140%] h-[140%] pointer-events-none">
+              <span className="absolute inline-flex h-full w-full rounded-full bg-[#FFD700] opacity-20 animate-ping" />
+            </div>
+          </motion.div>
 
-            {/* 底部Logo - Bottom 5% */}
-            <motion.div 
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.5, duration: 0.8 }}
-              className="absolute left-1/2 -translate-x-1/2 bottom-[5%] w-[25%] max-w-[160px]"
-            >
-              <img 
-                src={logoImage} 
-                alt="山东博物馆" 
-                className="w-full h-auto object-contain opacity-90"
-              />
-            </motion.div>
-        </div>
+          {/* 底部Logo - 固定像素定位 */}
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.5, duration: 0.8 }}
+            className="absolute left-1/2 -translate-x-1/2"
+            style={{ bottom: 60, width: 140 }}
+          >
+            <img 
+              src={logoImage} 
+              alt="山东博物馆" 
+              className="w-full h-auto object-contain opacity-90"
+            />
+          </motion.div>
+      </div>
     </div>
   )
 }

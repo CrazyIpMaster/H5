@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 
 // 导入背景和按钮
 import bgImage from '../../assets/images/level4_creation/海报/通用/一级页面-背景.png'
@@ -56,40 +56,9 @@ const PATTERNS = [
 ]
 
 export const PatternSelector = ({ selectedPattern, onSelect, onNext, onBack }: PatternSelectorProps) => {
-  const [scale, setScale] = useState(1)
-
-  // 自适应缩放
-  useEffect(() => {
-    const handleResize = () => {
-      const windowWidth = window.innerWidth
-      const windowHeight = window.innerHeight
-      const targetRatio = 640 / 1136
-      const windowRatio = windowWidth / windowHeight
-      let newScale = 1
-      if (windowRatio > targetRatio) {
-        newScale = windowHeight / 1136
-      } else {
-        newScale = windowWidth / 640
-      }
-      setScale(newScale)
-    }
-    handleResize()
-    window.addEventListener('resize', handleResize)
-    return () => window.removeEventListener('resize', handleResize)
-  }, [])
-
   return (
-    <div className="fixed inset-0 overflow-hidden bg-black">
-      <div 
-        style={{ 
-          width: 640, 
-          height: 1136,
-          left: '50%',
-          top: '50%',
-          transform: `translate(-50%, -50%) scale(${scale})`,
-        }}
-        className="absolute bg-[#D64131] overflow-hidden shadow-2xl pointer-events-auto"
-      >
+    <div className="absolute inset-0 w-[640px] h-[1136px] overflow-hidden bg-[#D64131]">
+      <div className="absolute inset-0 overflow-hidden pointer-events-auto">
         {/* 背景 */}
         <img src={bgImage} alt="bg" className="absolute inset-0 w-full h-full object-cover z-0" />
 
