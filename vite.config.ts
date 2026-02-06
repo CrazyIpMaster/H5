@@ -4,7 +4,7 @@ import tailwindcss from '@tailwindcss/vite'
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: '/Uploads/sdbwgshuzizhanting/fushizhanlan/',
+  base: '/H5/',
   plugins: [react(), tailwindcss()],
   build: {
     rollupOptions: {
