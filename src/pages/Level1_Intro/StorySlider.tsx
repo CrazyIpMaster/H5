@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from 'framer-motion'
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 
 // Import assets
 import bgVideo from '../../assets/images/level1_intro/首页/长图/238b3b7f996d379ff86c4aa03131f2d4.mp4?url'

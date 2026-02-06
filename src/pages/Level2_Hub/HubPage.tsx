@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { useAppStore } from '../../store/useAppStore'
 import { analytics } from '../../utils/analytics'

@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { useState, useEffect, useRef } from 'react'
+import { useRef } from 'react'
 import html2canvas from 'html2canvas'
 
 // 导入背景图片 - 使用海报4的完整背景
