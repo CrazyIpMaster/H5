@@ -1,5 +1,4 @@
 import { motion } from 'framer-motion'
-import { useState } from 'react'
 
 // 导入背景和按钮
 import bgImage from '../../assets/images/level4_creation/海报/通用/一级页面-背景.png'

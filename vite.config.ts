@@ -16,10 +16,17 @@ export default defineConfig({
         }
       }
     },
-    minify: 'esbuild'
+    minify: 'esbuild',
+    // 优化资源处理
+    assetsInlineLimit: 4096, // 4KB 以下的资源内联为 base64
+    chunkSizeWarningLimit: 1000, // 提高警告阈值
   },
   server: {
     host: true,
     port: 3000
+  },
+  // 优化依赖预构建
+  optimizeDeps: {
+    include: ['react', 'react-dom', 'framer-motion', 'zustand']
   }
 })
