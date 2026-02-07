@@ -1,8 +1,9 @@
 import { motion } from 'framer-motion'
 
 // 导入背景和按钮
-import bgImage from '../../assets/images/level4_creation/海报/通用/一级页面-背景.png'
+import bgImage from '../../assets/images/首页.png'
 import nextBtn from '../../assets/images/level4_creation/海报/通用/四级页面海报修改-下一步按键.png'
+import backBtn from '../../assets/images/level3_exploration/通用/三级界面- 瑞兽护岁安-长图-返回键.png'
 import titleMain from '../../assets/images/level4_creation/海报/通用/四级页面海报(修改1-生成你的好彩头文字.png'
 import titleSub from '../../assets/images/level4_creation/海报/通用/四级页面海报(修改1-选择一款你喜欢的纹饰文字.png'
 import gradientFrame1 from '../../assets/images/level4_creation/海报/海报2/四级页面海报1修改-渐变框.png'
@@ -63,11 +64,11 @@ export const PatternSelector = ({ selectedPattern, onSelect, onNext, onBack }: P
 
         {/* 返回按钮 */}
         <motion.button
-          className="absolute top-8 left-6 z-50 w-10 h-10 flex items-center justify-center bg-black/20 rounded-full backdrop-blur-sm"
+          className="absolute top-8 right-6 z-50 w-10 h-10 flex items-center justify-center"
           whileTap={{ scale: 0.9 }}
           onClick={onBack}
         >
-          <span className="text-white text-xl">←</span>
+          <img src={backBtn} alt="Back" className="w-full h-full object-contain" />
         </motion.button>
 
         {/* 标题区域 */}

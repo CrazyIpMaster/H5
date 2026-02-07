@@ -1,12 +1,14 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
+import { useAppStore } from '../../store/useAppStore'
 import { PatternSelector } from './PatternSelector'
 import { TextSelector } from './TextSelector'
 import { PosterResult } from './PosterResult'
 
 // Common Assets
-import bgImage from '../../assets/images/level4_creation/海报/通用/一级页面-背景.png'
+import bgImage from '../../assets/images/首页.png'
 import nextBtn from '../../assets/images/level4_creation/海报/通用/四级页面海报修改-下一步按键.png'
+import backBtn from '../../assets/images/level3_exploration/通用/三级界面- 瑞兽护岁安-长图-返回键.png'
 
 import titleMain from '../../assets/images/level4_creation/海报/通用/四级页面海报(修改1-生成你的好彩头文字.png'
 import titleSub from '../../assets/images/level4_creation/海报/通用/四级页面海报(修改1-选择一款你喜欢的纹饰文字.png'
@@ -29,6 +31,7 @@ const PATTERNS = [
 ]
 
 export function CreationPage() {
+  const { setPhase } = useAppStore()
   const [step, setStep] = useState<1 | 2 | 3 | 4>(1)
   const [selectedPattern, setSelectedPattern] = useState<string | null>(null)
   const [selectedTexture, setSelectedTexture] = useState<string | null>(null)
@@ -121,6 +124,15 @@ export function CreationPage() {
             transition={{ duration: 0.5 }}
             className="absolute inset-0 z-10"
           >
+            {/* Back Button */}
+            <motion.button
+              className="absolute top-8 right-6 z-50 w-10 h-10 flex items-center justify-center"
+              whileTap={{ scale: 0.9 }}
+              onClick={() => setPhase('hub')}
+            >
+              <img src={backBtn} alt="Back" className="w-full h-full object-contain" />
+            </motion.button>
+
             {/* 标题区域 */}
             <div 
               className="absolute w-full flex flex-col items-center"
@@ -183,7 +195,7 @@ export function CreationPage() {
 
                     {/* 纹饰名称 - 使用 style 直接设置间距 */}
                     <span 
-                      className="text-[#4A1A1A] text-[16px] tracking-wider"
+                      className="text-[#4A1A1A] text-[22px] tracking-wider"
                       style={{ fontFamily: 'serif', marginTop: 40 }}
                     >
                       {p.name}
@@ -246,7 +258,7 @@ export function CreationPage() {
 
                     {/* 纹饰名称 - 使用 style 直接设置间距 */}
                     <span 
-                      className="text-[#4A1A1A] text-[16px] tracking-wider"
+                      className="text-[#4A1A1A] text-[22px] tracking-wider"
                       style={{ fontFamily: 'serif', marginTop: 35 }}
                     >
                       {p.name}

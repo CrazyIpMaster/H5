@@ -4,13 +4,14 @@ import { useAppStore } from '../../store/useAppStore'
 import { analytics } from '../../utils/analytics'
 
 // Assets
-import bgImage from '../../assets/images/level2_hub/二级页面-背景.png'
+import bgImage from '../../assets/images/首页.png'
 import dragonImg from '../../assets/images/level2_hub/二级页面-龙.png'
 import flowerImg from '../../assets/images/level2_hub/二级页面-花.png'
 import craneImg from '../../assets/images/level2_hub/二级页面_02.png' // Assuming this is the Crane image based on visual inspection or naming convention
 import btnBeast from '../../assets/images/level2_hub/二级页面-瑞兽护岁安按钮.png'
 import btnFeather from '../../assets/images/level2_hub/二级页面-飞羽按钮.png'
 import btnPattern from '../../assets/images/level2_hub/二级页面-祥纹饶衣行按钮.png'
+import btnPoster from '../../assets/images/level3_exploration/通用/三级界面- 瑞兽护岁安-长图-转四方生成海报按钮.png'
 
 export function HubPage() {
   const { selectRoute, setPhase } = useAppStore()
@@ -37,52 +38,70 @@ export function HubPage() {
         {/* 层级 1: 装饰元素 - 龙、鹤、花 */}
         
         {/* 龙 - 右上角 */}
-        <motion.img 
-          src={dragonImg} 
-          alt="Dragon" 
-          className="absolute will-change-transform"
+        <motion.div
+          className="absolute cursor-pointer"
           style={{ 
             left: 240, 
             top: -30, 
-            width: 400, 
-            height: 'auto',
             zIndex: 1
+          }}
+          onClick={() => handleRouteSelect('earth')}
+        >
+        <motion.img 
+          src={dragonImg} 
+          alt="Dragon" 
+          className="w-[400px] h-auto will-change-transform"
+          style={{ 
+            filter: 'drop-shadow(0 0 15px rgba(255, 215, 0, 0.6))'
           }}
           animate={{ y: [0, -6, 0] }}
           transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
         />
+        </motion.div>
 
         {/* 仙鹤 - 左中部，站在梅花枝上 */}
-        <motion.img 
-          src={craneImg} 
-          alt="Crane" 
-          className="absolute will-change-transform"
+        <motion.div
+          className="absolute cursor-pointer"
           style={{ 
             left: 0, 
             top: 380, 
-            width: 320, 
-            height: 'auto',
             zIndex: 1
+          }}
+          onClick={() => handleRouteSelect('sky')}
+        >
+        <motion.img 
+          src={craneImg} 
+          alt="Crane" 
+          className="w-[320px] h-auto will-change-transform"
+          style={{ 
+            filter: 'drop-shadow(0 0 15px rgba(255, 215, 0, 0.6))'
           }}
           animate={{ y: [0, -5, 0] }}
           transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
         />
+        </motion.div>
 
         {/* 花卉 - 右下角牡丹花 */}
-        <motion.img 
-          src={flowerImg} 
-          alt="Flowers" 
-          className="absolute will-change-transform"
+        <motion.div
+          className="absolute cursor-pointer"
           style={{ 
             left: 260, // +20px from 150
             top: 780, 
-            width: 400, 
-            height: 'auto',
             zIndex: 1
+          }}
+          onClick={() => handleRouteSelect('water')}
+        >
+        <motion.img 
+          src={flowerImg} 
+          alt="Flowers" 
+          className="w-[400px] h-auto will-change-transform"
+          style={{ 
+            filter: 'drop-shadow(0 0 15px rgba(255, 215, 0, 0.6))'
           }}
           animate={{ scale: [1, 1.015, 1] }}
           transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
         />
+        </motion.div>
 
         {/* 层级 2: 按钮 - 最上层 */}
         
@@ -126,6 +145,19 @@ export function HubPage() {
           onClick={() => handleRouteSelect('water')}
         >
           <img src={btnPattern} alt="祥纹饶衣行" className="w-[70px] h-auto drop-shadow-lg" />
+        </motion.div>
+
+        {/* 生成海报 - 居中按钮 */}
+        <motion.div
+          className="absolute cursor-pointer left-1/2 -translate-x-1/2"
+          style={{ 
+            bottom: 40,
+            zIndex: 3
+          }}
+          whileTap={{ scale: 0.95 }}
+          onClick={() => setPhase('creation')}
+        >
+          <img src={btnPoster} alt="生成海报" className="w-[120px] h-auto drop-shadow-lg" />
         </motion.div>
       </div>
     </div>

@@ -1,5 +1,10 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: 'HuiWenMingChao';
+  src: url('./assets/ziti/汇文明朝体GBKv1.001.ttf') format('truetype');
+}
+
 /* 国潮主题色彩变量 */
 :root {
   --color-primary: #C41E3A;      /* 中国红 */
@@ -12,8 +17,8 @@
   --color-ink: #2C2C2C;          /* 墨黑 */
   
   /* 字体 */
-  --font-display: 'Noto Serif SC', 'STSong', 'SimSun', serif;
-  --font-body: 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --font-display: 'HuiWenMingChao', 'Noto Serif SC', 'STSong', 'SimSun', serif;
+  --font-body: 'HuiWenMingChao', 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
 }
 
 /* 基础重置 */

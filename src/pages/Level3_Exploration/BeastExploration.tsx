@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import { useAppStore } from '../../store/useAppStore'
 import { CostumeModal } from './CostumeModal'
 import { PatternModal } from './PatternModal'
@@ -11,6 +11,7 @@ import bgImage from '../../assets/images/level3_exploration/瑞兽/三级界面-
 import backBtn from '../../assets/images/level3_exploration/通用/三级界面- 瑞兽护岁安-长图-返回键.png'
 import iconCostume from '../../assets/images/level3_exploration/瑞兽/三级界面-瑞兽护岁安-长图-对应服饰介绍图标.png'
 import iconPattern from '../../assets/images/level3_exploration/通用/三级界面-瑞兽护岁安-长图-纹饰图标.png'
+import happyNewYearIcon from '../../assets/images/level3_exploration/瑞兽/新年快乐对话框图标_白色背景.png'
 import textCostume from '../../assets/images/level3_exploration/通用/三级界面-飞羽衔春至-长图-本衣文字.png'
 import textPattern from '../../assets/images/level3_exploration/通用/三级界面-飞羽衔春至-长图-纹样文字.png'
 
@@ -161,6 +162,21 @@ export function BeastExploration() {
   const [isActionMenuOpen, setIsActionMenuOpen] = useState(false)
   const [isExpansionModalOpen, setIsExpansionModalOpen] = useState(false)
 
+  // Track click positions for each beast: { [beastId]: { x, y } }
+  const [beastPopups, setBeastPopups] = useState<Record<string, { x: number, y: number } | null>>({})
+
+  const handleBeastClick = (e: React.MouseEvent<HTMLDivElement>, beastId: string) => {
+    // Get click position relative to the container
+    const rect = e.currentTarget.getBoundingClientRect()
+    const x = e.clientX - rect.left
+    const y = e.clientY - rect.top
+    
+    setBeastPopups(prev => ({
+      ...prev,
+      [beastId]: { x, y }
+    }))
+  }
+
   const handleOpenCostume = (data: typeof costumeModalData) => {
     setCostumeModalData(data)
     setIsCostumeModalOpen(true)
@@ -203,13 +219,55 @@ export function BeastExploration() {
 
                 {/* Beast Image */}
                 <motion.div 
-                  className="w-[480px] z-10 flex items-center justify-center"
+                  className="w-[480px] z-10 flex items-center justify-center relative cursor-pointer"
                   initial={{ opacity: 0, scale: 0.9 }}
                   whileInView={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.8, ease: "easeOut" }}
                   viewport={{ once: false }}
+                  onClick={(e) => handleBeastClick(e, beast.id)}
                 >
                    <img src={beast.image} alt={beast.name} className="w-full h-auto drop-shadow-2xl" />
+                   
+                   {/* Interactive Popup Icon */}
+                   <AnimatePresence>
+                     {beastPopups[beast.id] && (
+                       <motion.img
+                         key={`popup-${beast.id}`}
+                         src={happyNewYearIcon}
+                         alt="Happy New Year"
+                         className="absolute w-24 h-auto z-50 pointer-events-none"
+                         style={{
+                           left: beastPopups[beast.id]!.x,
+                           top: beastPopups[beast.id]!.y,
+                           x: '-50%', // Center horizontally on click
+                           y: '-100%', // Position above click
+                         }}
+                         initial={{ scale: 0, rotate: -15, opacity: 0 }}
+                         animate={{ 
+                           scale: 1, 
+                           opacity: 1,
+                           rotate: [0, -10, 10, -5, 5, 0], // Swaying effect
+                           y: ['-100%', '-110%', '-100%'] // Slight bobbing
+                         }}
+                         exit={{ scale: 0, opacity: 0 }}
+                         transition={{ 
+                           duration: 0.5,
+                           rotate: {
+                             repeat: Infinity,
+                             repeatType: "mirror",
+                             duration: 1.5,
+                             ease: "easeInOut"
+                           },
+                           y: {
+                             repeat: Infinity,
+                             repeatType: "reverse",
+                             duration: 1.0,
+                             ease: "easeInOut"
+                           }
+                         }}
+                       />
+                     )}
+                   </AnimatePresence>
                 </motion.div>
 
                 {/* Beast Text Name */}

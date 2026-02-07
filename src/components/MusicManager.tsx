@@ -2,8 +2,8 @@ import { useEffect, useRef } from 'react'
 import { useAppStore } from '../store/useAppStore'
 
 // Assets
-import introMusic from '../assets/images/level1_intro/首页/长图/古风温馨春华秋实 古风舒缓繁华盛茂_爱给网_aigei_com(1).wav?url'
-import generalMusic from '../assets/images/level3_exploration/通用/其余界面背景音乐.mp3?url'
+import introMusic from '../assets/images/level3_exploration/通用/其余界面背景音乐.mp3?url'
+import generalMusic from '../assets/images/level1_intro/首页/长图/古风温馨春华秋实 古风舒缓繁华盛茂_爱给网_aigei_com(1).wav?url'
 
 export function MusicManager() {
   const { currentPhase, introView, isMuted } = useAppStore()

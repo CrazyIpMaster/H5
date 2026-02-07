@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import { useAppStore } from '../../store/useAppStore'
 import { CostumeModal } from './CostumeModal'
 import { PatternModal } from './PatternModal'
@@ -11,6 +11,7 @@ import bgImage from '../../assets/images/level3_exploration/飞羽/三级界面-
 import backBtn from '../../assets/images/level3_exploration/通用/三级界面- 瑞兽护岁安-长图-返回键.png'
 import iconCostume from '../../assets/images/level3_exploration/飞羽/三级界面-飞羽衔春至-长图_对应服饰介绍图标.png'
 import iconPattern from '../../assets/images/level3_exploration/通用/三级界面-瑞兽护岁安-长图-纹饰图标.png'
+import yuanbaoImg from '../../assets/images/level3_exploration/通用/元宝.png'
 import textCostume from '../../assets/images/level3_exploration/通用/三级界面-飞羽衔春至-长图-本衣文字.png'
 import textPattern from '../../assets/images/level3_exploration/通用/三级界面-飞羽衔春至-长图-纹样文字.png'
 
@@ -23,10 +24,13 @@ import textPeacock from '../../assets/images/level3_exploration/飞羽/孔雀纹
 
 // Feiyu Images
 import beastCrane from '../../assets/images/level3_exploration/飞羽/仙鹤纹/三级界面-飞羽衔春至-长图-仙鹤纹.png'
-import beastSwallow from '../../assets/images/level3_exploration/飞羽/翠鸟纹和燕子纹/三级界面-飞羽衔春至-长图-燕子纹.png'
-import beastKingfisher from '../../assets/images/level3_exploration/飞羽/翠鸟纹和燕子纹/三级界面-飞羽衔春至-长图-翠鸟纹.png'
+import beastCraneGray from '../../assets/images/level3_exploration/飞羽/仙鹤纹/三级界面-飞羽衔春至-长图_06.png'
+import beastSwallowKingfisher from '../../assets/images/level3_exploration/飞羽/翠鸟纹和燕子纹/三级界面-飞羽衔春至-长图_101_10.png'
+import beastSwallowKingfisherGray from '../../assets/images/level3_exploration/飞羽/翠鸟纹和燕子纹/三级界面-飞羽衔春至-长图_10.png'
 import beastPhoenix from '../../assets/images/level3_exploration/飞羽/鸾凤纹/三级界面-飞羽衔春至-长图-鸾凤纹.png'
+import beastPhoenixGray from '../../assets/images/level3_exploration/飞羽/鸾凤纹/三级界面-飞羽衔春至-长图_03.png'
 import beastPeacock from '../../assets/images/level3_exploration/飞羽/孔雀纹/三级界面-飞羽衔春至-长图-孔雀纹.png'
+import beastPeacockGray from '../../assets/images/level3_exploration/飞羽/孔雀纹/三级界面-飞羽衔春至-长图_14.png'
 
 // Costume Titles
 import titleCrane from '../../assets/images/level3_exploration/飞羽/仙鹤纹/三级界面-飞羽衔春至-长图-大红色暗花纱缀绣云鹤方补圆领文字.png'
@@ -73,6 +77,10 @@ const BEASTS = [
     id: 'crane', 
     name: '仙鹤纹', 
     image: beastCrane,
+    overlayImage: beastCraneGray,
+    // Adjust position (x, y) and rotation (rotate) here
+    style: { x: 0, y: 0, rotate: 0, scale: 1 },
+    overlayStyle: { x: 0, y: -499, scale: 1, rotate: 0 }, // Independent overlay adjustment
     textImage: textCrane,
     textStyle: { right: 400, top: 300, width: 40 },
     costumeData: {
@@ -92,17 +100,18 @@ const BEASTS = [
     elements: [
       {
         id: 'swallow',
-        image: beastSwallow,
+        image: beastSwallowKingfisher,
+        overlayImage: beastSwallowKingfisherGray,
         textImage: textSwallow,
-        style: { left: 60, bottom: 380, width: 300 }, // Adjusted position for bottom-left flying right
+        style: { left: 90, top: 300, width: 430 }, // Combined image positioned to cover center
+        overlayStyle: { x: 0, y: -499, scale: 1, rotate: 0 }, // Independent overlay adjustment
         textStyle: { left: 60, bottom: 550, width: 40 }
       },
       {
         id: 'kingfisher',
-        image: beastKingfisher,
+        image: beastSwallowKingfisher, // Placeholder, hidden via style
         textImage: textKingfisher,
-        style: { right: 60, top: 320, width: 300 }, // Adjusted position for top-right flying left
-        imageStyle: { transform: 'scaleX(-1) rotate(80deg)' },
+        style: { display: 'none' }, // Hide duplicate image
         textStyle: { right: 50, top: 400, width: 50 }
       }
     ],
@@ -119,6 +128,10 @@ const BEASTS = [
     id: 'phoenix', 
     name: '鸾凤纹', 
     image: beastPhoenix,
+    overlayImage: beastPhoenixGray,
+    // Adjust position (x, y) and rotation (rotate) here
+    style: { x: 0, y: 0, rotate: 0, scale: 1 },
+    overlayStyle: { x: 0, y: -470, scale: 1, rotate: 0 }, // Independent overlay adjustment
     textImage: textPhoenix,
     textStyle: { left: 360, top: 700, width: 50 },
     costumeData: {
@@ -134,8 +147,12 @@ const BEASTS = [
     id: 'peacock', 
     name: '孔雀纹', 
     image: beastPeacock,
+    overlayImage: beastPeacockGray,
+    // Adjust position (x, y) and rotation (rotate) here
+    style: { x: 0, y: 0, rotate: 0, scale: 1 },
+    overlayStyle: { x: -10, y: -372, scale: 1, rotate: 7.5 }, // Independent overlay adjustment
     textImage: textPeacock,
-    textStyle: { left: 100, top: 350, width: 40 },
+    textStyle: { left: 160, top: 350, width: 40 },
     costumeData: {
       titleImage: titlePeacock,
       images: [peacockCostume1, peacockCostume2, peacockCostume3]
@@ -154,6 +171,15 @@ export function FeiyuExploration() {
   // Modal State
   const [activeModal, setActiveModal] = useState<'none' | 'costume' | 'pattern' | 'action' | 'expansion'>('none')
   const [selectedItem, setSelectedItem] = useState<typeof BEASTS[0] | null>(null)
+  
+  // Track unlocked animations for each beast element
+  const [unlockedBeasts, setUnlockedBeasts] = useState<Record<string, boolean>>({})
+
+  const handleUnlock = (id: string) => {
+    if (!unlockedBeasts[id]) {
+      setUnlockedBeasts(prev => ({ ...prev, [id]: true }))
+    }
+  }
 
   const handleCostumeClick = (beast: typeof BEASTS[0]) => {
     setSelectedItem(beast)
@@ -216,7 +242,45 @@ export function FeiyuExploration() {
                           transition={{ duration: 0.8, ease: "easeOut" }}
                           viewport={{ once: false }}
                         >
-                           <img src={element.image} alt={element.id} className="w-full h-auto drop-shadow-2xl" style={element.imageStyle} />
+                           <img src={element.image} alt={element.id} className="w-full h-auto drop-shadow-2xl relative z-10" style={element.imageStyle} />
+                           {element.overlayImage && (
+                             <>
+                               {/* Gray Overlay with wipe animation */}
+                               <motion.img 
+                                 src={element.overlayImage} 
+                                 alt={`${element.id}-overlay`} 
+                                 className="absolute z-20 w-full h-auto cursor-pointer" 
+                                 style={{
+                                   ...element.imageStyle,
+                                   ...element.overlayStyle
+                                 }}
+                                 initial={{ clipPath: 'inset(0% 0% 0% 0%)' }}
+                                 animate={unlockedBeasts[element.id] ? { clipPath: 'inset(100% 0% 0% 0%)' } : { clipPath: 'inset(0% 0% 0% 0%)' }}
+                                 transition={{ duration: 1.5, ease: "easeInOut" }}
+                                 onClick={() => handleUnlock(element.id)}
+                               />
+                               
+                               {/* Falling Yuanbao */}
+                            <AnimatePresence>
+                              {!unlockedBeasts[element.id] && (
+                                <motion.img 
+                                  key="yuanbao"
+                                  src={yuanbaoImg} 
+                                  alt="元宝" 
+                                  className="absolute z-30 w-12 h-auto pointer-events-none"
+                                  style={{
+                                    left: '50%',
+                                    x: '-50%',
+                                    top: -100, // Start position higher
+                                  }}
+                                  initial={{ y: 0, opacity: 1 }}
+                                  exit={{ y: 600, opacity: 1 }} // Drop down past material, no fade
+                                  transition={{ duration: 1.0, ease: "easeIn" }}
+                                />
+                              )}
+                            </AnimatePresence>
+                             </>
+                           )}
                         </motion.div>
                         <motion.div
                           className="absolute z-20"
@@ -235,14 +299,53 @@ export function FeiyuExploration() {
                   // Single Beast View
                   <>
                     <motion.div 
-                      className="w-[500px] -mt-20 z-10"
+                      className="w-[500px] -mt-20 z-10 relative"
+                      // @ts-ignore
+                      style={beast.style}
                       initial={{ opacity: 0, scale: 0.9 }}
                       whileInView={{ opacity: 1, scale: 1 }}
                       transition={{ duration: 0.8, ease: "easeOut" }}
                       viewport={{ once: false }}
                     >
                        {/* @ts-ignore */}
-                       <img src={beast.image} alt={beast.name} className="w-full h-auto drop-shadow-2xl" />
+                       <img src={beast.image} alt={beast.name} className="w-full h-auto drop-shadow-2xl relative z-10" />
+                        {/* @ts-ignore */}
+                        {beast.overlayImage && (
+                          <>
+                            {/* Gray Overlay with wipe animation */}
+                            <motion.img 
+                              src={beast.overlayImage} 
+                              alt={`${beast.name}-overlay`} 
+                              className="absolute z-20 w-full h-auto cursor-pointer" 
+                              // @ts-ignore
+                              style={beast.overlayStyle}
+                              initial={{ clipPath: 'inset(0% 0% 0% 0%)' }}
+                              animate={unlockedBeasts[beast.id] ? { clipPath: 'inset(100% 0% 0% 0%)' } : { clipPath: 'inset(0% 0% 0% 0%)' }}
+                              transition={{ duration: 1.5, ease: "easeInOut" }}
+                              onClick={() => handleUnlock(beast.id)}
+                            />
+                            
+                            {/* Falling Yuanbao */}
+                            <AnimatePresence>
+                              {!unlockedBeasts[beast.id] && (
+                                <motion.img 
+                                  key="yuanbao"
+                                  src={yuanbaoImg} 
+                                  alt="元宝" 
+                                  className="absolute z-30 w-12 h-auto pointer-events-none"
+                                  style={{
+                                    left: '50%',
+                                    x: '-50%',
+                                    top: -100, // Start position higher
+                                  }}
+                                  initial={{ y: 0, opacity: 1 }}
+                                  exit={{ y: 600, opacity: 1 }} // Drop down past material, no fade
+                                  transition={{ duration: 1.0, ease: "easeIn" }}
+                                />
+                              )}
+                            </AnimatePresence>
+                          </>
+                        )}
                     </motion.div>
 
                     <motion.div

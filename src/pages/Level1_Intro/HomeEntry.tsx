@@ -39,7 +39,7 @@ export const HomeEntry = ({ onStartStory }: HomeEntryProps) => {
 
           {/* 启动按钮 */}
           <motion.div
-            className="absolute left-1/2 -translate-x-1/2 top-[68%] w-[14%] aspect-square cursor-pointer group z-20"
+            className="absolute left-1/2 -translate-x-1/2 top-[68%] w-[20%] aspect-square cursor-pointer group z-20"
             onClick={onStartStory}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
