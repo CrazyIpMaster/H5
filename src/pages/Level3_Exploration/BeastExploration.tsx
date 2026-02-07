@@ -70,6 +70,7 @@ const BEASTS = [
     image: beastFlyingFish,
     textImage: textFlyingFish,
     textStyle: { right: 180, top: 700, width: 50 },
+    popupStyle: { top: '10%', right: '60%' },
     costumeData: {
       titleImage: costumeFlyingFishTitle,
       images: [
@@ -92,6 +93,7 @@ const BEASTS = [
     image: beastMang,
     textImage: textMang,
     textStyle: { left: 220, top: 340, width: 40 },
+    popupStyle: { top: '-30%', left: '40%' },
     costumeData: {
       titleImage: costumeMangTitle,
       images: [
@@ -114,6 +116,7 @@ const BEASTS = [
     image: beastQilin,
     textImage: textQilin,
     textStyle: { left: 200, top: 360, width: 35 },
+    popupStyle: { top: '30%', right: '80%' },
     costumeData: {
       titleImage: costumeQilinTitle,
       images: [
@@ -135,6 +138,7 @@ const BEASTS = [
     image: beastDouniu,
     textImage: textDouniu,
     textStyle: { left: 150, top: 280, width: 40 },
+    popupStyle: { top: '-15%', left: '25%' },
     costumeData: {
       titleImage: costumeDouniuTitle,
       images: [
@@ -162,18 +166,16 @@ export function BeastExploration() {
   const [isActionMenuOpen, setIsActionMenuOpen] = useState(false)
   const [isExpansionModalOpen, setIsExpansionModalOpen] = useState(false)
 
-  // Track click positions for each beast: { [beastId]: { x, y } }
-  const [beastPopups, setBeastPopups] = useState<Record<string, { x: number, y: number } | null>>({})
+  // Track popup visibility for each beast
+  const [visiblePopups, setVisiblePopups] = useState<Record<string, boolean>>({})
 
-  const handleBeastClick = (e: React.MouseEvent<HTMLDivElement>, beastId: string) => {
-    // Get click position relative to the container
-    const rect = e.currentTarget.getBoundingClientRect()
-    const x = e.clientX - rect.left
-    const y = e.clientY - rect.top
-    
-    setBeastPopups(prev => ({
+  const handleBeastClick = (beastId: string) => {
+    // If already visible, do nothing (prevents reset/re-animation)
+    if (visiblePopups[beastId]) return
+
+    setVisiblePopups(prev => ({
       ...prev,
-      [beastId]: { x, y }
+      [beastId]: true
     }))
   }
 
@@ -224,32 +226,26 @@ export function BeastExploration() {
                   whileInView={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.8, ease: "easeOut" }}
                   viewport={{ once: false }}
-                  onClick={(e) => handleBeastClick(e, beast.id)}
+                  onClick={() => handleBeastClick(beast.id)}
                 >
                    <img src={beast.image} alt={beast.name} className="w-full h-auto drop-shadow-2xl" />
                    
                    {/* Interactive Popup Icon */}
                    <AnimatePresence>
-                     {beastPopups[beast.id] && (
+                     {visiblePopups[beast.id] && (
                        <motion.img
                          key={`popup-${beast.id}`}
                          src={happyNewYearIcon}
                          alt="Happy New Year"
-                         className="absolute w-24 h-auto z-50 pointer-events-none"
-                         style={{
-                           left: beastPopups[beast.id]!.x,
-                           top: beastPopups[beast.id]!.y,
-                           x: '-50%', // Center horizontally on click
-                           y: '-100%', // Position above click
-                         }}
+                         className="absolute w-20 h-auto z-[100] pointer-events-none"
+                         style={beast.popupStyle}
                          initial={{ scale: 0, rotate: -15, opacity: 0 }}
                          animate={{ 
                            scale: 1, 
                            opacity: 1,
                            rotate: [0, -10, 10, -5, 5, 0], // Swaying effect
-                           y: ['-100%', '-110%', '-100%'] // Slight bobbing
+                           y: [0, -10, 0] // Slight bobbing
                          }}
-                         exit={{ scale: 0, opacity: 0 }}
                          transition={{ 
                            duration: 0.5,
                            rotate: {

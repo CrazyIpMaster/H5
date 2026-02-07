@@ -26,11 +26,11 @@ import patternShoushan from '../../assets/images/level3_exploration/祥纹/寿�
 import patternFlower from '../../assets/images/level3_exploration/祥纹/折枝花纹/三级界面-祥纹绕衣行-长图-折枝花纹.png'
 import patternSeawater from '../../assets/images/level3_exploration/祥纹/海水江崖纹/三级界面-祥纹绕衣行-长图-海水江崖纹.png'
 
-// Pattern Detail Images (JPEGs)
-import detailRuyi from '../../assets/images/level3_exploration/祥纹/四合如意纹/四合如意.jpeg'
-import detailShoushan from '../../assets/images/level3_exploration/祥纹/寿山福海/寿山福海.jpeg'
-import detailFlower from '../../assets/images/level3_exploration/祥纹/折枝花纹/折枝花纹.jpeg'
-import detailSeawater from '../../assets/images/level3_exploration/祥纹/海水江崖纹/海水江崖.jpeg'
+// Pattern Back Images (PNGs)
+import backRuyi from '../../assets/images/level3_exploration/祥纹/四合如意纹/四合如意.png'
+import backShoushan from '../../assets/images/level3_exploration/祥纹/寿山福海/寿山福海.png'
+import backFlower from '../../assets/images/level3_exploration/祥纹/折枝花纹/折枝花纹.png'
+import backSeawater from '../../assets/images/level3_exploration/祥纹/海水江崖纹/海水江崖.png'
 
 // Costume - Shoushan (Used as placeholder for others where missing)
 import costumeShoushan1 from '../../assets/images/level3_exploration/祥纹/寿山福海/三级界面-祥纹绕衣行-长图-香色芝麻纱绣过肩蟒女长衫.png'
@@ -59,7 +59,7 @@ const PATTERNS = [
     id: 'haishuijiangya', 
     name: '海水江崖纹', 
     image: patternSeawater,
-    detailImage: detailSeawater,
+    backImage: backSeawater,
     textImage: textSeawater,
     textStyle: { right: 220, top: 250, width: 200 },
     costumeData: {
@@ -75,7 +75,7 @@ const PATTERNS = [
     id: 'siheruyi', 
     name: '四合如意纹', 
     image: patternRuyi,
-    detailImage: detailRuyi,
+    backImage: backRuyi,
     textImage: textRuyi,
     textStyle: { left: 220, top: 250, width: 200 },
     costumeData: {
@@ -91,7 +91,7 @@ const PATTERNS = [
     id: 'shoushanfuhai', 
     name: '寿山福海', 
     image: patternShoushan,
-    detailImage: detailShoushan,
+    backImage: backShoushan,
     textImage: textShoushan,
     textStyle: { left: 220, top: 270, width: 200 },
     costumeData: {
@@ -107,7 +107,7 @@ const PATTERNS = [
     id: 'zhezhihua', 
     name: '折枝花纹', 
     image: patternFlower,
-    detailImage: detailFlower,
+    backImage: backFlower,
     textImage: textFlower,
     textStyle: { left: 280, top: 300, width: 60 },
     costumeData: {
@@ -128,7 +128,16 @@ export function PatternExploration() {
   // Modal State
   const [activeModal, setActiveModal] = useState<'none' | 'costume' | 'pattern' | 'action' | 'expansion'>('none')
   const [selectedItem, setSelectedItem] = useState<typeof PATTERNS[0] | null>(null)
-  const [previewImage, setPreviewImage] = useState<string | null>(null)
+  
+  // Track flipped state for each pattern
+  const [flippedPatterns, setFlippedPatterns] = useState<Record<string, boolean>>({})
+
+  const handlePatternFlip = (id: string) => {
+    setFlippedPatterns(prev => ({
+      ...prev,
+      [id]: !prev[id]
+    }))
+  }
 
   const handleCostumeClick = (pattern: typeof PATTERNS[0]) => {
     if (pattern.costumeData) {
@@ -177,17 +186,36 @@ export function PatternExploration() {
                   className="absolute inset-0 w-full h-full object-cover z-0" 
                 />
 
-                {/* Pattern Image */}
-                <motion.div 
-                  className="w-[400px] z-10 cursor-pointer"
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.8, ease: "easeOut" }}
-                  viewport={{ once: false }}
-                  onClick={() => setPreviewImage(pattern.detailImage)}
-                >
-                   <img src={pattern.image} alt={pattern.name} className="w-full h-auto drop-shadow-2xl" />
-                </motion.div>
+                {/* Pattern Image with 3D Flip */}
+                <div className="w-[400px] h-[400px] z-10 cursor-pointer perspective-1000 flex items-center justify-center">
+                  <motion.div 
+                    className="relative w-full h-full flex items-center justify-center"
+                    style={{ transformStyle: 'preserve-3d' }}
+                    animate={{ rotateY: flippedPatterns[pattern.id] ? 180 : 0 }}
+                    transition={{ duration: 0.6, ease: "easeInOut" }}
+                    onClick={() => handlePatternFlip(pattern.id)}
+                  >
+                    {/* Front Side (Main Pattern Image) */}
+                    <div 
+                      className="absolute backface-hidden w-full h-full flex items-center justify-center"
+                      style={{ backfaceVisibility: 'hidden' }}
+                    >
+                       <img src={pattern.image} alt={pattern.name} className="w-full h-auto drop-shadow-2xl" />
+                    </div>
+
+                    {/* Back Side (Detail/Back Image) */}
+                    <div 
+                      className="absolute backface-hidden w-full h-full flex items-center justify-center"
+                      style={{ 
+                        backfaceVisibility: 'hidden', 
+                        transform: 'rotateY(180deg)' 
+                      }}
+                    >
+                       {/* @ts-ignore */}
+                       <img src={pattern.backImage} alt={`${pattern.name} detail`} className="w-full h-auto drop-shadow-2xl" />
+                    </div>
+                  </motion.div>
+                </div>
 
                 {/* Pattern Text Name */}
                 <motion.div
@@ -274,39 +302,6 @@ export function PatternExploration() {
             isOpen={activeModal === 'expansion'}
             onClose={closeModal}
           />
-
-          {/* Lightbox Modal */}
-          <AnimatePresence>
-            {previewImage && (
-              <motion.div 
-                className="fixed inset-0 z-[100] bg-black/90 flex items-center justify-center p-4 pointer-events-auto"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                onClick={() => setPreviewImage(null)}
-              >
-                <motion.img 
-                  src={previewImage} 
-                  alt="Detail" 
-                  className="max-w-full max-h-full object-contain rounded-lg drop-shadow-2xl"
-                  initial={{ scale: 0.9, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  exit={{ scale: 0.9, opacity: 0 }}
-                  onClick={(e) => e.stopPropagation()}
-                />
-                {/* Close Button */}
-                 <button 
-                  className="absolute top-8 right-8 text-white/80 hover:text-white"
-                  onClick={() => setPreviewImage(null)}
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <line x1="18" y1="6" x2="6" y2="18"></line>
-                    <line x1="6" y1="6" x2="18" y2="18"></line>
-                  </svg>
-                </button>
-              </motion.div>
-            )}
-          </AnimatePresence>
 
       </div>
     </div>

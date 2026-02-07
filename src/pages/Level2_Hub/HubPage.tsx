@@ -51,9 +51,6 @@ export function HubPage() {
           src={dragonImg} 
           alt="Dragon" 
           className="w-[400px] h-auto will-change-transform"
-          style={{ 
-            filter: 'drop-shadow(0 0 15px rgba(255, 215, 0, 0.6))'
-          }}
           animate={{ y: [0, -6, 0] }}
           transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
         />
@@ -73,9 +70,6 @@ export function HubPage() {
           src={craneImg} 
           alt="Crane" 
           className="w-[320px] h-auto will-change-transform"
-          style={{ 
-            filter: 'drop-shadow(0 0 15px rgba(255, 215, 0, 0.6))'
-          }}
           animate={{ y: [0, -5, 0] }}
           transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
         />
@@ -95,9 +89,6 @@ export function HubPage() {
           src={flowerImg} 
           alt="Flowers" 
           className="w-[400px] h-auto will-change-transform"
-          style={{ 
-            filter: 'drop-shadow(0 0 15px rgba(255, 215, 0, 0.6))'
-          }}
           animate={{ scale: [1, 1.015, 1] }}
           transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
         />

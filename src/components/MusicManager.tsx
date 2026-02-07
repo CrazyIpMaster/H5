@@ -3,7 +3,8 @@ import { useAppStore } from '../store/useAppStore'
 
 // Assets
 import introMusic from '../assets/images/level3_exploration/通用/其余界面背景音乐.mp3?url'
-import generalMusic from '../assets/images/level1_intro/首页/长图/古风温馨春华秋实 古风舒缓繁华盛茂_爱给网_aigei_com(1).wav?url'
+// Replaced heavy WAV (50MB+) with lighter m4a (3.8MB) for mobile performance
+import generalMusic from '../assets/images/level1_intro/首页/长图/古风温馨春华秋实 古风舒缓繁华盛茂_爱给网_aigei_com(1).m4a?url'
 
 export function MusicManager() {
   const { currentPhase, introView, isMuted } = useAppStore()
