@@ -1,11 +1,15 @@
 import { useEffect, useState, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useAppStore } from '../store/useAppStore'
-import { preloadAssets } from '../utils/assetLoader'
-import { getAllPatterns } from '../data/patterns'
 
 import bgImage from '../assets/images/level1_intro/首页/一级页面-背景.png'
 import flowerIcon from '../assets/images/level1_intro/首页/loading花图标静态发光图.png'
+
+// 首页必需的核心资源（只预加载这些）
+import homePageBg from '../assets/images/level1_intro/首页/一级页面 首页.png'
+import titleImage from '../assets/images/level1_intro/首页/一级页面-标题文字.png'
+import btnImage from '../assets/images/level1_intro/首页/一级页面 首页-按钮.png'
+import logoImage from '../assets/images/level1_intro/首页/文字logo.png'
 
 export const Preloader = () => {
   const { isAppLoaded, setAppLoaded, loadingProgress, setLoadingProgress } = useAppStore()
@@ -39,42 +43,50 @@ export const Preloader = () => {
     if (isAppLoaded || preloadedRef.current) return
     preloadedRef.current = true
 
-    const loadAllAssets = async () => {
-      // Collect assets
-      const patterns = getAllPatterns();
-      const patternImages = patterns.map(p => p.image);
-      const staticAssets = [
+    const loadCriticalAssets = async () => {
+      // 只预加载首页必需的核心资源
+      const criticalAssets = [
         bgImage,
-        // Add other static UI assets here if any
+        homePageBg,
+        titleImage,
+        btnImage,
+        logoImage,
       ];
       
-      const allAssets = [...staticAssets, ...patternImages];
+      let loadedCount = 0;
+      const totalAssets = criticalAssets.length;
       
-      // Start Preloading
-      // Simulate smoother progress
-      let currentProgress = 0;
-      
-      await preloadAssets(allAssets, () => {
-        // We'll use a timer to smoothly interpolate to the real progress
-        // This is a simplified approach; for perfect smoothness we'd use requestAnimationFrame
-        // but this should be enough for the visual effect requested
+      // 并行加载所有关键资源
+      const loadPromises = criticalAssets.map(src => {
+        return new Promise<void>((resolve) => {
+          const img = new Image();
+          img.onload = () => {
+            loadedCount++;
+            // 更新真实进度
+            const realProgress = Math.round((loadedCount / totalAssets) * 100);
+            setLoadingProgress(Math.min(realProgress, 95)); // 保留5%给最终完成
+            resolve();
+          };
+          img.onerror = () => {
+            loadedCount++;
+            resolve(); // 即使失败也继续
+          };
+          img.src = src;
+        });
       });
-
-      // Custom smooth progress simulation
-      const interval = setInterval(() => {
-        currentProgress += 1;
-        if (currentProgress > 100) {
-          currentProgress = 100;
-          clearInterval(interval);
-          setAppLoaded(true);
-        }
-        setLoadingProgress(currentProgress);
-      }, 30); // 30ms * 100 steps = 3000ms total duration approx
-
-      return () => clearInterval(interval);
+      
+      await Promise.all(loadPromises);
+      
+      // 完成加载
+      setLoadingProgress(100);
+      
+      // 短暂延迟后标记加载完成
+      setTimeout(() => {
+        setAppLoaded(true);
+      }, 300);
     };
 
-    loadAllAssets();
+    loadCriticalAssets();
   }, [isAppLoaded, setAppLoaded, setLoadingProgress]);
 
   return (
